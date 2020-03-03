@@ -15,34 +15,32 @@
 </head>
 <body>
 
-<!--Container containing all 3 windows-->
-<div class="ui internally celled grid container">
+  <!--Container containing all 3 windows-->
+  <div class="ui internally celled grid container">
 
-<!--First row contains the two text areas that will be copied and pasted-->
-  <div class="row">
-    <div class="eight wide column">
-      <textarea id="text1" placeholder="Text area 1">
-
-      </textarea>
+  <!--First row contains the two text areas that will be copied and pasted-->
+    <div class="row">
+      <div class="eight wide column">
+        <textarea id="text1" placeholder="Text area 1"></textarea>
+      </div>
+      <div class="eight wide column">
+        <textarea id="text2"  placeholder="Text area 2"></textarea>
+      </div>
     </div>
-    <div class="eight wide column">
-      <textarea id="text2"  placeholder="Text area 2">
-      </textarea>
+  <!--Second row contains the clipboard element-->
+    <div class="row">
+      <div class="centered eight wide column">
+        <textarea id="clipboard" placeholder="Clipboard"></textarea>
+      </div>
     </div>
   </div>
-<!--Second row contains the clipboard element-->
-  <div class="row">
-    <div class="centered eight wide column">
-      <textarea id="clipboard" placeholder="Text area 2">
-      </textarea>
-    </div>
+  <div>
+    <!--Copying and Paste buttons-->
+    <button class="ui button" id="copy">
+      Copy
+    </button><button class="ui button" id="paste">
+      Paste
+    </button>
   </div>
-</div>
-<!--Copying and Paste buttons-->
-<button class="ui button" id="copy">
-  Copy
-</button><button class="ui button" id="paste">
-  Paste
-</button>
 </body>
 </html>
