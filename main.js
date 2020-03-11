@@ -15,9 +15,9 @@ function copy() {
     var clipboard = document.getElementById('clipboard').innerHTML;
     
     if (activeTextBox.id === 'text1') {
-        paste("text1", clipboard);
+        paste("text1", clipboard, startForCut, endForCut);
     } else {
-        paste("text2", clipboard);
+        paste("text2", clipboard, startForCut, endForCut);
     }
 }
 
@@ -43,14 +43,14 @@ function cut() {
   $('#text1').bind('copy', function(e) {
     e.preventDefault();
     var clipboard = document.getElementById('clipboard').innerHTML;
-    paste("text1", clipboard);
+    paste("text1", clipboard, startForCut, endForCut);
   });
 
   //take copy from clipboard to textbox2.
   $('#text2').bind('copy', function(e) {
     e.preventDefault();
     var clipboard = document.getElementById('clipboard').innerHTML;
-    paste("text2", clipboard);
+    paste("text2", clipboard, startForCut, endForCut);
   });
 
   //take cut from clipboard to textbox1.
