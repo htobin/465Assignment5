@@ -1,130 +1,123 @@
-//main function
-$(function (){
+// global variable for clipboard
+var clip = [];
+//global variables for finding where to cut
+var startForCut = 0;
+var endForCut = 0;
+var activeTextBox = null;
+var cutFromThisBox = null;
 
-  //global variables for finding where to cut
-  var startForCut = 0;
-  var endForCut = 0;
-  var cutFromThisBox = null;
+/*
+ * BUTTON FUNCTIONS
+*/
 
+// function that copies clipboard into current active textbox
+function copy() {
+    var clipboard = document.getElementById('clipboard').innerHTML;
+    
+    if (activeTextBox.id === 'text1') {
+        paste("text1", clipboard, startForCut, endForCut);
+    } else {
+        paste("text2", clipboard, startForCut, endForCut);
+    }
+}
 
+// function that cuts clipboard into current active textbox
+function cut() {
+    var clipboard = document.getElementById('clipboard').innerHTML;
+    
+    if (activeTextBox.id === 'text1') {
+        paste("text1", clipboard, startForCut, endForCut);
+        paste(cutFromThisBox.id, "", cutFromThisBox.selectionStart, cutFromThisBox.selectionEnd);
+    } else {
+        paste("text2", clipboard, startForCut, endForCut);
+        paste(cutFromThisBox.id, "", cutFromThisBox.selectionStart, cutFromThisBox.selectionEnd);
+    }
+}
 
-  //Copying functions
-  //copy hotkey is pressed in textbox 1
+/*
+ * KEYBOARD FUNCTIONS
+ * Credit: Hoku Tobin
+*/
+
+  //take copy from clipboard to textbox1.
   $('#text1').bind('copy', function(e) {
-    //change function of copy hotkey
     e.preventDefault();
-
-    //where find where to paste
-    var startIndex = $(this)[0].selectionStart;
-    var endIndex = $(this)[0].selectionEnd;
-
-    //paste within the indexes
-    paste($('#text1'),startIndex,endIndex);
+    var clipboard = document.getElementById('clipboard').innerHTML;
+    paste("text1", clipboard, startForCut, endForCut);
   });
 
-  //copyhotkey is pressed in textbox2, see comments of first copy function
+  //take copy from clipboard to textbox2.
   $('#text2').bind('copy', function(e) {
     e.preventDefault();
-    var startIndex = $(this)[0].selectionStart;
-    var endIndex = $(this)[0].selectionEnd;
-    paste($('#text2'),startIndex,endIndex);
+    var clipboard = document.getElementById('clipboard').innerHTML;
+    paste("text2", clipboard, startForCut, endForCut);
   });
 
-  //Functions to cut
+  //take cut from clipboard to textbox1.
   $('#text1').bind('cut', function(e) {
     e.preventDefault();
-
-    //finding index where to paste to
-    var startIndex = $(this)[0].selectionStart;
-    var endIndex = $(this)[0].selectionEnd;
-
-    //find the intial box that was cut from
-    cutFromInitialHighlight(cutFromThisBox);
-
-    //paste in the appropriate textbox
-    paste($('#text1'), startIndex, endIndex);
+    var clipboard = document.getElementById('clipboard').innerHTML;
+    paste("text1", clipboard, startForCut, endForCut);
+    paste(cutFromThisBox.id, "", cutFromThisBox.selectionStart, cutFromThisBox.selectionEnd);
   });
 
-
-  //take copy from clipboard to textbox2
+  //take cut from clipboard to textbox2.
   $('#text2').bind('cut', function(e) {
     e.preventDefault();
-    var startIndex = $(this)[0].selectionStart;
-    var endIndex = $(this)[0].selectionEnd;
-    cutFromInitialHighlight(cutFromThisBox);
-    paste($('#text2'), startIndex, endIndex);
+    var clipboard = document.getElementById('clipboard').innerHTML;
+    paste("text2", clipboard, startForCut, endForCut);
+    paste(cutFromThisBox.id, "", cutFromThisBox.selectionStart, cutFromThisBox.selectionEnd);
   });
+  
+/*
+ * OTHER FUNCTIONS
+*/
 
+// function handles string manipulation for pasting clipboard.
+// credit: Hoku Tobin
+function paste(dest, clip, cutStart, cutEnd) {
+    var box = document.getElementById(dest);
+    var firstChunk = box.innerHTML.substring(0,cutStart);
+    var endChunk = box.innerHTML.substring(cutEnd);
+    box.innerHTML = firstChunk + clip + endChunk;
+}
 
-  //call to clipboard check
-  $('#text1').on('mouseup',function() {
-      if(checkClipBoard())
-      {
-        cutFromThisBox = $(this);
-        highlight($(this)[0]);
-      }
-  });
-
-  //call to clipboard check
-  $('#text2').on('mouseup',function() {
-    if(checkClipBoard())
-    {
-      cutFromThisBox = $(this);
-      highlight($(this)[0]);
+// function that updates clipboard history.
+function clipHistory() {
+    var ret = "Clipboard History:\n<ol>";
+    
+    for (var i = 0; i < clip.length; i++) {
+        ret += "<li>" + clip[i] + "</li>";
     }
-  });
+    ret += "</ol>\n";
+    document.getElementById('clip-history').innerHTML = ret;
+}
 
-  //check if anything is in the clipboard
-  function checkClipBoard(){
-    var clipboard = $('#clipboard');
-    if(clipboard.text().length == 0)
-    {
-      return true;
+/* 
+ * copies selection from either textbox and saves it into clipboard.
+ * code inspired from: 
+ * https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/activeElement
+*/
+function onMouseUp(e) {
+    activeTextBox = document.activeElement;
+    var selection;
+
+    selection = activeTextBox.value.substring(
+        activeTextBox.selectionStart, activeTextBox.selectionEnd
+    );
+    
+    startForCut = activeTextBox.selectionStart;
+    endForCut = activeTextBox.selectionEnd;
+
+    if (selection != "") {
+      cutFromThisBox = activeTextBox;
+      document.getElementById('clipboard').innerHTML = selection;
+      document.getElementById('clipboard').value = selection;
+      clip.push(selection);
+      clipHistory();
     }
-    return false;
-  }
+}
 
-  //check which textbox is being cut from
-  function cutFromInitialHighlight(originalTextBox)
-  {
-    //take the substring being cut out from the textbox
-    var firstChunk = originalTextBox.val().substring(0,startForCut);
-    var endChunk = originalTextBox.val().substring(endForCut);
-    originalTextBox.val(firstChunk + "" + endChunk);
-  }
+document.getElementById('text1').addEventListener('mouseup', onMouseUp, false);
+document.getElementById('text2').addEventListener('mouseup', onMouseUp, false);
 
-  //function that highlights the text that will be pasted to clipboard
-  //parameter: currentText, text that will be highlighted
-  function highlight(currentText) {
-    //select initial text
-    var start = currentText.selectionStart;
-    var end =currentText.selectionEnd;
-
-    //keep track of indexes of text
-    startForCut = start;
-    endForCut = end;
-
-    //put text into clipboard
-    var selection = currentText.value.substring(start,end);
-    $('#clipboard').text(selection);
-    $('#clipboard').val(selection);
-
-  }
-
-  //function that pastes from ta clipoard to textbox
-  //parameter:textBox, the target textbox that will be pasted in
-  function paste (textBox, startIndex, endIndex){
-    var currentText = $('#clipboard').text();
-
-
-    var firstChunk = textBox.val().substring(0, startIndex);
-    var endChunk = textBox.val().substring(endIndex);
-    textBox.val(firstChunk + currentText + endChunk);
-
-
-    //clear the textbox
-    var clipboard = $('#clipboard');
-    clipboard.val("");
-    clipboard.text("");
-  }
-});

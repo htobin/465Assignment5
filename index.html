@@ -10,10 +10,19 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-  <script src="main.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+  <div style="text-align: left" class="ui container">
+    <h1>Assignment 5: Shorter Copy & Paste</h1>
+    <p> Copy pasting in its original context is boring. This web app changes that.
+    <ol>
+        <li>Select text you want to use</li>
+        <li>Select box to paste to</li>
+        <li>Press hotkeys for either 'copy' or 'cut'</li>
+    </ol>
+    It's ridiculous, but it's shorter so it must be better! 
+    </p>
 
   <!--Container containing all 3 windows-->
   <div class="ui internally celled grid container">
@@ -21,20 +30,29 @@
   <!--First row contains the two text areas that will be copied and pasted-->
     <div class="row">
       <div class="eight wide column">
-        <textarea id="text1" placeholder="Text area 1"></textarea>
+        <textarea id="text1">The quick brown fox jumped over the lazy dog.</textarea>
       </div>
       <div class="eight wide column">
-        <textarea id="text2"  placeholder="Text area 2"></textarea>
+        <textarea id="text2">Hello world! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</textarea>
       </div>
     </div>
   <!--Second row contains the clipboard element-->
     <div class="row">
-      <div class="centered eight wide column">
+      <div class="eight wide column">
+        <div class="ui buttons" style="padding-bottom: 10px">
+          <div class="ui button" onclick="cut()">Cut</div>
+          <div class="or"></div>
+          <div class="ui button" onclick="copy()">Copy</div>
+        </div>
         <textarea readonly id="clipboard" placeholder="Clipboard"></textarea>
+      </div>
+      <div style="text-align: left; max-height: 30vh; overflow: scroll" class="eight wide column">
+        <p id="clip-history"></p>
       </div>
     </div>
   </div>
   <div>
   </div>
 </body>
+<script src="main.js"></script>
 </html>
