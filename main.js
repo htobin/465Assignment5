@@ -1,4 +1,4 @@
-/*
+
 //main function
 $(function (){
 
@@ -21,7 +21,7 @@ $(function (){
 
     //paste within the indexes
     paste($('#text1'),startIndex,endIndex);
-<<<<<<< Updated upstream
+
   });
 
   //copyhotkey is pressed in textbox2, see comments of first copy function
@@ -76,62 +76,6 @@ $(function (){
     }
   });
 
-=======
-  });
-
-  //copyhotkey is pressed in textbox2, see comments of first copy function
-  $('#text2').bind('copy', function(e) {
-    e.preventDefault();
-    var startIndex = $(this)[0].selectionStart;
-    var endIndex = $(this)[0].selectionEnd;
-    paste($('#text2'),startIndex,endIndex);
-  });
-
-  //Functions to cut
-  $('#text1').bind('cut', function(e) {
-    e.preventDefault();
-
-    //finding index where to paste to
-    var startIndex = $(this)[0].selectionStart;
-    var endIndex = $(this)[0].selectionEnd;
-
-    //find the intial box that was cut from
-    cutFromInitialHighlight(cutFromThisBox);
-
-    //paste in the appropriate textbox
-    paste($('#text1'), startIndex, endIndex);
-  });
-
-
-  //take copy from clipboard to textbox2
-  $('#text2').bind('cut', function(e) {
-    e.preventDefault();
-    var startIndex = $(this)[0].selectionStart;
-    var endIndex = $(this)[0].selectionEnd;
-    cutFromInitialHighlight(cutFromThisBox);
-    paste($('#text2'), startIndex, endIndex);
-  });
-
-
-  //call to clipboard check
-  $('#text1').on('mouseup',function() {
-      if(checkClipBoard())
-      {
-        cutFromThisBox = $(this);
-        highlight($(this)[0]);
-      }
-  });
-
-  //call to clipboard check
-  $('#text2').on('mouseup',function() {
-    if(checkClipBoard())
-    {
-      cutFromThisBox = $(this);
-      highlight($(this)[0]);
-    }
-  });
-
->>>>>>> Stashed changes
   //check if anything is in the clipboard
   function checkClipBoard(){
     var clipboard = $('#clipboard');
