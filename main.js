@@ -8,14 +8,6 @@ $(function (){
   $('#text2').bind('copy', function() {
     highlight($(this)[0]);
   });
-  
-  //
-  // $('#text1').bind('paste', function() {
-  //   paste($(this)[0]);
-  // });
-  // $('#text2').bind('paste', function() {
-  //   paste($(this)[0]);
-  // });
 
   //paste to textbox 1 with PASTE button
   $('#paste').on('click',function(){
