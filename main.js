@@ -48,25 +48,27 @@ function cut() {
  * Functional implementation of HTML  by Alton Lee inspired by work done by Hoku Tobin
 */
 
-  //take copy from clipboard to textbox1.
+  //take copy from clipboard to textbox1 if the text box is active
   $('#text1').bind('copy', function(e) {
     e.preventDefault();
     var clipboard = document.getElementById('clipboard').innerHTML;
     paste("text1", clipboard, startForCut, endForCut);
   });
 
-  //take copy from clipboard to textbox2.
+  //take copy from clipboard to textbox 2 if the textbox is active
   $('#text2').bind('copy', function(e) {
     e.preventDefault();
     var clipboard = document.getElementById('clipboard').innerHTML;
     paste("text2", clipboard, startForCut, endForCut);
   });
 
-  //take cut from clipboard to textbox1.
+  //take cut from clipboard to textbox1 if the text box is active
   $('#text1').bind('cut', function(e) {
     e.preventDefault();
     var clipboard = document.getElementById('clipboard').innerHTML;
     paste("text1", clipboard, startForCut, endForCut);
+    
+    //identifies which box is being cut from
     paste(cutFromThisBox.id, "", cutFromThisBox.selectionStart, cutFromThisBox.selectionEnd);
   });
 
@@ -75,6 +77,8 @@ function cut() {
     e.preventDefault();
     var clipboard = document.getElementById('clipboard').innerHTML;
     paste("text2", clipboard, startForCut, endForCut);
+  
+    //identifies which box is being cut from
     paste(cutFromThisBox.id, "", cutFromThisBox.selectionStart, cutFromThisBox.selectionEnd);
   });
   
