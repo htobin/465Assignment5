@@ -68,7 +68,7 @@ function cut() {
     var clipboard = document.getElementById('clipboard').innerHTML;
     paste("text1", clipboard, startForCut, endForCut);
     
-    //identifies which box is being cut from
+    //identifies which box is being cut to
     paste(cutFromThisBox.id, "", cutFromThisBox.selectionStart, cutFromThisBox.selectionEnd);
   });
 
@@ -78,7 +78,7 @@ function cut() {
     var clipboard = document.getElementById('clipboard').innerHTML;
     paste("text2", clipboard, startForCut, endForCut);
   
-    //identifies which box is being cut from
+    //identifies which box to cut to
     paste(cutFromThisBox.id, "", cutFromThisBox.selectionStart, cutFromThisBox.selectionEnd);
   });
   
