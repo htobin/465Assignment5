@@ -4,7 +4,7 @@
  * functionality was done by Alton Lee
  */
 
-// global variable for clipboard
+// global variable for clipboard to store data
 var clip = [];
 //global variables for finding where to cut
 var startForCut = 0;
